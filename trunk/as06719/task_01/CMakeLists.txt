@@ -6,16 +6,16 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# ИСПОЛЬЗУЕМ АВТОПОИСК:
-# Это заставит CMake искать файлы и рядом с CMakeLists.txt, и в папке src/
+# Ищем main.cpp и InputSignal.cpp в текущей папке ИЛИ в подпапке src
 file(GLOB PROJECT_SOURCES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/InputSignal.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/InputSignal.cpp"
 )
 
 add_executable(ControlModels_as06719 ${PROJECT_SOURCES})
 
-# Если это твой компьютер, называем файл ControlModels.exe, чтобы батник работал
 if(NOT DEFINED ENV{GITHUB_ACTIONS})
     set_target_properties(ControlModels_as06719 PROPERTIES OUTPUT_NAME "ControlModels")
 endif()

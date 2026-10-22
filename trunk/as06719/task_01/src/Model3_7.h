@@ -2,22 +2,26 @@
 #define MODEL_3_7_H
 
 #include "Model.h"
+#include <cmath>
 
-// Модель в виде дифференциального уравнения (вариант 3.7):
-// dy/dt = -exp(a)*y + b*u, интегрируется явным методом Эйлера
-// с шагом dt.
 class Model3_7 : public Model {
 public:
-    Model3_7(double coeffA, double coeffB, double timeStep);
+    Model3_7(double coeffA, double coeffB, double timeStep)
+        : a(coeffA), b(coeffB), dt(timeStep) {}
 
-    double calculateNext(double input) override;
-    void reset() override;
+    double calculateNext(double input) override {
+        double current_y = getY();
+        double next_y = current_y + dt * (-std::exp(a) * current_y + b * input);
+        setY(next_y);
+        return next_y;
+    }
+
+    void reset() override {
+        setY(0.0);
+    }
 
 private:
-    // Параметры уравнения и шаг интегрирования
-    double a;
-    double b;
-    double dt;
+    double a, b, dt;
 };
 
 #endif // MODEL_3_7_H

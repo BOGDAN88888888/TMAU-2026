@@ -7,36 +7,28 @@
 #include "InputSignal.h"
 #include "Model1_9.h"
 #include "Model2_3.h"
-#include "Model2_3.h"
 #include "Model3_7.h"
 
 using namespace std;
 
 namespace {
 
-    // Считывает целое в заданном диапазоне, повторяя запрос при ошибке
     int readBoundedInt(const string& question, int low, int high) {
         int number;
         for (;;) {
             cout << question;
-            if (cin >> number && number >= low && number <= high) {
-                return number;
-            }
-            cout << "[Error] Invalid input! Please enter an integer between "
-                << low << " and " << high << "." << endl;
+            if (cin >> number && number >= low && number <= high) return number;
+            cout << "[Error] Invalid input! Please enter an integer between " << low << " and " << high << "." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
 
-    // Считывает вещественное число, повторяя запрос при ошибке
     double readReal(const string& question) {
         double number;
         for (;;) {
             cout << question;
-            if (cin >> number) {
-                return number;
-            }
+            if (cin >> number) return number;
             cout << "[Error] Invalid input! Please enter a valid number." << endl;
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -48,21 +40,14 @@ namespace {
         string    label;
     };
 
-    // Сопоставляет номер пункта меню выбранному сигналу
     SignalChoice pickSignal(int menuIndex) {
         if (menuIndex == 2) return { InputType::IMPULSE,  "Impulse" };
         if (menuIndex == 3) return { InputType::HARMONIC, "Harmonic" };
         return { InputType::STEP, "Step" };
     }
 
-    // Прогоняет модель по выбранному сигналу и сохраняет траекторию в CSV
-    void runSimulation(Model& model,
-        const string& modelTag,
-        InputType input,
-        const string& inputLabel,
-        int stepCount) {
+    void runSimulation(Model& model, const string& modelTag, InputType input, const string& inputLabel, int stepCount) {
         model.reset();
-
         const string csvPath = "../doc/" + modelTag + "_" + inputLabel + ".csv";
         ofstream report(csvPath);
 
@@ -73,38 +58,30 @@ namespace {
         for (int step = 0; step < stepCount; ++step) {
             const double u = getInputValue(input, step);
             const double y = model.calculateNext(u);
-
             report << step << "," << u << "," << y << "\n";
-            cout << setw(6) << step
-                << setw(12) << fixed << setprecision(4) << u
-                << setw(14) << y << endl;
+            cout << setw(6) << step << setw(12) << fixed << setprecision(4) << u << setw(14) << y << endl;
         }
         report.close();
     }
-
 } // namespace
 
 int main() {
     cout << "=== Interactive Model Configuration (Variant 19) ===" << endl;
 
-    // Защищённый ввод исходных параметров
     const int    steps = readBoundedInt("Enter number of steps (n) [1-100]: ", 1, 100);
     const double a = readReal("Enter coefficient a: ");
     const double b = readReal("Enter coefficient b: ");
 
-    // Создание трёх моделей варианта
     Model1_9 linModel(a * 0.4, a * 0.3, a * 0.1, b);
     Model2_3 nonlinModel(a, 0.1, b);
     Model3_7 diffModel(a, b, 0.1);
 
-    // Меню выбора модели
     cout << "\nSelect model to calculate:" << endl;
     cout << "1. Linear Model 1.9" << endl;
     cout << "2. Nonlinear Model 2.3" << endl;
     cout << "3. Differential Equation 3.7" << endl;
     const int modelChoice = readBoundedInt("Enter choice (1-3): ", 1, 3);
 
-    // Меню выбора сигнала
     cout << "\nSelect input signal:" << endl;
     cout << "1. Step" << endl;
     cout << "2. Impulse" << endl;
@@ -113,11 +90,11 @@ int main() {
 
     const SignalChoice picked = pickSignal(sigChoice);
 
-    // Расчёт только выбранной конфигурации
     switch (modelChoice) {
     case 1: runSimulation(linModel, "Linear_1_9", picked.kind, picked.label, steps); break;
     case 2: runSimulation(nonlinModel, "Nonlinear_2_3", picked.kind, picked.label, steps); break;
     case 3: runSimulation(diffModel, "DiffEquation_3_7", picked.kind, picked.label, steps); break;
+    default: cout << "[Error] Unknown model choice." << endl; break;
     }
 
     return 0;

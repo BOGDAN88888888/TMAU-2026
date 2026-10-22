@@ -1,3 +1,0 @@
-C:/Users/Bogdan/Desktop/Новая папка (7)/TMAU-2026/trunk/as06719/task_01/build/CMakeFiles/ControlModels_as06719.dir
-C:/Users/Bogdan/Desktop/Новая папка (7)/TMAU-2026/trunk/as06719/task_01/build/CMakeFiles/edit_cache.dir
-C:/Users/Bogdan/Desktop/Новая папка (7)/TMAU-2026/trunk/as06719/task_01/build/CMakeFiles/rebuild_cache.dir

@@ -5,15 +5,14 @@ Model3_7::Model3_7(double coeffA, double coeffB, double timeStep)
     : a(coeffA), b(coeffB), dt(timeStep) {}
 
 double Model3_7::calculateNext(double input) {
-    const double y_curr = getY();
+    // ИСПРАВЛЕНО: переменная переименована
+    double current_y = getY();
 
-    // Явный метод Эйлера для уравнения dy/dt = -exp(a)*y + b*u
-    const double derivative = -std::exp(a) * y_curr + b * input;
-    const double y_next = y_curr + dt * derivative;
+    // Метод Эйлера: y_{t+1} = y_t + dt * (-e^a * y_t + b * u)
+    double next_y = current_y + dt * (-std::exp(a) * current_y + b * input);
 
-    setY(y_next);
-
-    return y_next;
+    setY(next_y);
+    return next_y;
 }
 
 void Model3_7::reset() {
