@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
+# Оставляем имя проекта как есть, это нормально
 project(ControlModels LANGUAGES CXX)
 
 # Стандарт языка C++
@@ -16,5 +17,5 @@ set(PROJECT_SOURCES
     src/Model3_7.cpp
 )
 
-# Целевой исполняемый файл
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+# ВАЖНО: Явно указываем уникальное имя исполняемого файла, добавляя ваш логин
+add_executable(ControlModels_as06719 ${PROJECT_SOURCES})
