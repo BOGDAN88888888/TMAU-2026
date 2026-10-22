@@ -22,8 +22,10 @@ public:
     }
 
 private:
-    double a1, b1, c1;
-    double y_prev1 = 0.0;
+   double a1;
+   double b1;
+   double c1;
+   double y_prev1 = 0.0;
 };
 
 #endif // MODEL_2_3_H

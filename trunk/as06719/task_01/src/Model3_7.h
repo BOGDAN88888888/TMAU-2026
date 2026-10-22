@@ -21,7 +21,9 @@ public:
     }
 
 private:
-    double a, b, dt;
+   double a;
+   double b;
+   double dt;
 };
 
 #endif // MODEL_3_7_H

@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <limits>
+#include <cstdlib> // Для system()
 #include "InputSignal.h"
 #include "Model1_9.h"
 #include "Model2_3.h"
@@ -48,8 +49,22 @@ namespace {
 
     void runSimulation(Model& model, const string& modelTag, InputType input, const string& inputLabel, int stepCount) {
         model.reset();
-        const string csvPath = "../doc/" + modelTag + "_" + inputLabel + ".csv";
+
+        // Создаем папку doc (работает везде, даже на старых компиляторах)
+        // Команда mkdir в Windows / mkdir -p в Linux/Mac. Так как у тебя Windows, используем просто mkdir.
+#ifdef _WIN32
+        system("if not exist doc mkdir doc");
+#else
+        system("mkdir -p doc");
+#endif
+
+        const string csvPath = "doc/" + modelTag + "_" + inputLabel + ".csv";
         ofstream report(csvPath);
+
+        if (!report.is_open()) {
+            cout << "[Error] Не удалось создать файл: " << csvPath << endl;
+            return;
+        }
 
         report << "Step,u,y\n";
         cout << "\n>>> Data for " << modelTag << " (" << inputLabel << " signal):\n";

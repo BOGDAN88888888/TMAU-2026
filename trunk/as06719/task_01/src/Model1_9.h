@@ -24,9 +24,12 @@ public:
     }
 
 private:
-    double a1, a2, a3, b1;
-    double y_prev1 = 0.0;
-    double y_prev2 = 0.0;
+   double a1;
+   double a2;
+   double a3;
+   double b1;
+   double y_prev1 = 0.0;
+   double y_prev2 = 0.0;
 };
 
 #endif // MODEL_1_9_H
