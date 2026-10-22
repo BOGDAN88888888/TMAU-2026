@@ -1,0 +1,3 @@
+C:/Users/Bogdan/Desktop/timay/build/CMakeFiles/ControlModels.dir
+C:/Users/Bogdan/Desktop/timay/build/CMakeFiles/edit_cache.dir
+C:/Users/Bogdan/Desktop/timay/build/CMakeFiles/rebuild_cache.dir
